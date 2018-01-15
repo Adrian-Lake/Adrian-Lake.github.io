@@ -1,0 +1,59 @@
+<html>
+
+<head>
+
+  <!-- IMPORTS -->
+  <!-- <script src="./js/processing.min.js"></script> -->
+  <script src="./js/base.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.6/processing.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./css/root.css">
+  <script>
+    invertState = false;
+
+    function invert() {
+      if (invertState) {
+        document.body.style.filter = "invert(0%)";
+        document.body.style['background-color'] = "#fff";
+        invertState = false;
+      } else {
+        document.body.style.filter = "invert(100%)";
+        document.body.style['background-color'] = "#000";
+        invertState = true;
+      }
+    }
+  </script>
+  <style>
+  </style>
+</head>
+
+<body onload='init()'>
+  <div class='center'>
+    <div class='title hr'>Adrian Clay Lake</div>
+    <div class='sbContainer'>
+      <img class='sideImg' src='./img/pp.png'>
+      <div class='sideBar menu'>
+      </div>
+    </div>
+    <div class='content hr'>
+      <canvas id='sketch' data-processing-sources="./pde/lorentzPreview.pde"></canvas>
+      <!-- <div class='placeholder'></div> -->
+    </div>
+    <div class='content'>
+      <p>
+        I am an astrophysics student recently graduated from the University of British Columbia with a strong focus on optics and computation. I have a passion for working with computers running simulations doing data analysis, and a web development on the side.
+        I am fluent in Python and JavaScript, can understand cryptic LaTeX, and express myself in Haskell. My workspace is a comfortable mess, I usually have multiple side projects in the oven at once, some of which are published to my github for those
+        interested. When im not typing away you can find me staring at mountains, planning my next great escape.
+      </p>
+      <p>
+        I am currently looking for work (\today). If you think I can be of help, feel free to contact me.
+      </p>
+    </div>
+  </div>
+
+
+
+  <div class="footer"></div>
+</body>
+
+</html>
