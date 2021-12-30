@@ -2,6 +2,9 @@ body{
   padding-top: 30px;
   font-family: 'Roboto Slab', serif;
 }
+pre{
+  white-space: pre-wrap;
+}
 .hr{
   border-bottom: 2px solid #000;
 }
