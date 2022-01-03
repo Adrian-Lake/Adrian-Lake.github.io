@@ -2,63 +2,44 @@
 
 <head>
 
-  <!-- IMPORTS -->
-  <!-- <script src="./js/processing.min.js"></script> -->
-  <script src="./js/base.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.6/processing.min.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,700" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="./css/root.css">
-  <script>
-    invertState = false;
+    <!-- RESOURCES -->
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,700" rel="stylesheet">
+    <!-- JS -->
+    <script src="./js/processing.min.js"></script>
 
-    function invert() {
-      if (invertState) {
-        document.body.style.filter = "invert(0%)";
-        document.body.style['background-color'] = "#fff";
-        invertState = false;
-      } else {
-        document.body.style.filter = "invert(100%)";
-        document.body.style['background-color'] = "#000";
-        invertState = true;
-      }
-    }
-  </script>
-  <style>
-  </style>
+    <!-- SRC -->
+    <script src="./js/base.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/root.css">
+
 </head>
 
 <body onload='init()'>
-  <div class='center'>
-    <div class='title hr'>Adrian Clay Lake</div>
-    <div class='sbContainer'>
-      <img class='sideImg' src='./img/profile.png'>
-      <div class='sideBar menu'>
-      </div>
+    <div class='center'>
+        <div class='title hr'>Adrian Clay Lake</div>
+        <div class='sbContainer'>
+            <img class='sideImg' src='./img/profile.png'>
+            <div class='sideBar menu'>
+            </div>
+        </div>
+        <div class='content hr'>
+            <canvas id='sketch' data-processing-sources="./pde/lorentzPreview.pde"></canvas>
+        </div>
+
+        <div class='content'>
+            <p><b>Hello!</b></p>
+            <p style="text-indent: 30px;">
+                For the past 4 years I have been an engineer in the Augmented Reality (AR) industry developing this challenging technology. This space delivered a wide range of projects and tasks, allowing me to develop a diverse set of skills including production automation,
+                machine vision, CAD, 3D printing and web development.
+            </p>
+            <p style="text-indent: 30px;">
+                Beyond work, I usually have several projects cooking on the side burner, the cleaner of which are presented on <a href='https://github.com/Adrian-Lake/'>GitHub</a>. Please feel free to reach out if you have any questions.
+            </p>
+
+            <p>Adrian</p>
+        </div>
     </div>
-    <div class='content hr'>
-      <canvas id='sketch' data-processing-sources="./pde/lorentzPreview.pde"></canvas>
-      <!-- <div class='placeholder'></div> -->
-    </div>
-    <div class='content'>
-      <pre>
-
-Hey!
-
-
-For the past 4 years I have been working as an engineer in the AR industry. I work with both software and hardware to develop and characterterize some of the best augmented reality technology on the market. Personally, I enjoy working on the interface between hardware and software because of the diverse projects and tasks it presents. This has allowed me to develop a diverse skill set with experience in production automation, machine vision, CAD, 3D printing, web development in a variety of languages, tools and techniques.
-
-Beyond work, I usually have several projects cooking on the side burner, the cleaner of which are presented on GitHub. Please feel free to reach out if you have any questions. 
-
-
-Adrian
-
-      </pre>
-    </div>
-  </div>
-
-
-
-  <div class="footer"></div>
+    <div class="footer"></div>
 </body>
 
 </html>

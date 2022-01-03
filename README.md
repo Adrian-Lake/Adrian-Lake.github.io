@@ -1,2 +1,2 @@
 # Adrian-Lake.github.io
-Personal Site
+full preview [here](https://adrian-lake.github.io/)
