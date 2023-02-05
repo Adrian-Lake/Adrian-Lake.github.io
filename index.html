@@ -2,44 +2,51 @@
 
 <head>
 
-    <!-- RESOURCES -->
     <!-- FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,700" rel="stylesheet">
-    <!-- JS -->
-    <script src="./js/processing.min.js"></script>
 
-    <!-- SRC -->
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="./css/base.css">
+
+    <!-- JS -->
+    <script src="./js/p5.min.js"></script>
+    <script src="./js/banner.js"></script>
     <script src="./js/base.js"></script>
-    <link rel="stylesheet" type="text/css" href="./css/root.css">
+
+    <script>
+        window.onload = base.init;
+    </script>
+
+    
 
 </head>
 
-<body onload='init()'>
-    <div class='center'>
-        <div class='title hr'>Adrian Clay Lake</div>
-        <div class='sbContainer'>
-            <img class='sideImg' src='./img/profile.png'>
-            <div class='sideBar menu'>
-            </div>
-        </div>
-        <div class='content hr'>
-            <canvas id='sketch' data-processing-sources="./pde/lorentzPreview.pde"></canvas>
+<body>
+
+    <div id="banner">
+
+        
+
+        <div id="bannerOverlay" class="content">
+            <h1>
+                <a href="https://www.linkedin.com/in/adrianclake/">Adrian Lake</a>
+            </h1>
         </div>
 
-        <div class='content'>
-            <p><b>Hello!</b></p>
-            <p style="text-indent: 30px;">
-                For the past 4 years I have been an engineer in the Augmented Reality (AR) industry developing this challenging technology. This space delivered a wide range of projects and tasks, allowing me to develop a diverse set of skills including production automation,
-                machine vision, CAD, 3D printing and web development.
-            </p>
-            <p style="text-indent: 30px;">
-                Beyond work, I usually have several projects cooking on the side burner, the cleaner of which are presented on <a href='https://github.com/Adrian-Lake/'>GitHub</a>. Please feel free to reach out if you have any questions.
-            </p>
+        <div id="bannerSketch"></div>
 
-            <p>Adrian</p>
-        </div>
     </div>
-    <div class="footer"></div>
+    
+    
+
+    <div class="content" >
+        <img src="/img/quake3.jpg" class="polaroid">
+        <p>
+            Hi my name is Adrian. I currently work at Bosch Sensortech Gmbh as a Software Engineer in the south of Germany. This github account is small space to upload small personal projects and experiments. If you want to contact me please reach out on my <a href="https://www.linkedin.com/in/adrianclake/">Linkedin account</a>
+        </p>
+    </div>
+
+
 </body>
 
 </html>

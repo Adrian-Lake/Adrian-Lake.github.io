@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    font-family: 'Roboto Slab', serif;
+}
+
+.content{
+    margin: auto;
+    max-width: 800px;
+    width: 80vw;
+}
+
+.content > * {
+    margin: 5px;
+}
+
+.content > img {
+    float:right;
+    margin: 50px;
+}
+
+.content > p{
+    text-indent: 50px;
+    padding-top: 50px;   
+    line-height: 200%;
+}
+
+.content > h1{
+    font-size: 48pt;
+    transition: 0.3s;
+    
+}
+
+.content > h1 > a {
+    all: unset;
+}
+
+.content a {
+    font-weight: bold;
+}
+
+.polaroid{
+    transform: rotate(10deg);
+    border: 15px white solid;
+    filter: drop-shadow(0 0 10px #999) grayscale(100%);
+    border-radius: 5px;
+}
+
+/* h1:hover {
+    text-shadow: 10px 10px #FF0000AA, -10px -10px #00FFFFAA;
+    transition: 0.3s;
+} */
+
+#banner{
+    position: relative;
+    width: 100vw;
+    height: 40vh;
+    min-height: 100px;
+    max-height: 500px;
+    background-color: black;
+    margin-bottom: 30px;
+}
+
+#bannerOverlay{
+    position: relative;
+    z-index: 2;
+    mix-blend-mode: difference;
+    color: #fff;
+}
+
+#bannerSketch{
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
