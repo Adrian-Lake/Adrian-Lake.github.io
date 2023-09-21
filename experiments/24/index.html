@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Countdown</title>
+    <style>
+        body{
+            background-color: #000;
+            color: aliceblue;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .hidden{
+            visibility: hidden;
+        }
+        @font-face {
+            font-family: 'dseg7';
+            src: url('/extern/dseg/DSEG7-Classic-MINI/DSEG7ClassicMini-BoldItalic.woff') format('woff'), 
+                 url('/extern/dseg/DSEG7-Classic-MINI/DSEG7ClassicMini-BoldItalic.ttf') format('truetype'); 
+        }
+        
+        @font-face {
+            font-family: 'dseg14';
+            src: url('/extern/dseg/DSEG14-Classic-MINI/DSEG14ClassicMini-BoldItalic.woff') format('woff'), 
+                 url('/extern/dseg/DSEG14-Classic-MINI/DSEG14ClassicMini-BoldItalic.ttf') format('truetype'); 
+        }  
+        .clockText{
+            font-family: 'dseg14';
+            color: #0000;
+            text-shadow: 0px 0px 20px #ffe291a0, 0px 0px 3px #ffe29180;
+            font-size: 2em;
+        }
+        .clockText::before{
+            color: #ffe291a0;
+            display: inline-block;
+            opacity: 10%;
+            content: attr(data-mask);
+            position: relative;
+            width: 0;
+        }
+        #clockFace{
+            font-family: 'dseg7';
+            color: #0000;
+            text-shadow: 0px 0px 20px #ffe291a0, 0px 0px 5px #ffe29180;
+            font-size: 4em;
+        }
+        .clockDigit{
+            display: inline-block;
+            width: 2ch;
+            direction: rtl;
+        }
+        .clockDigit::before{
+            color: #ffe291a0;
+            display: inline-block;
+            opacity: 20%;
+            content: "88";
+            position: relative;
+            width: 0;
+        }
+        .clockSeperator{
+            text-shadow: 0px 0px 5px #ffe29110;
+        }
+    </style>
+
+    <script>
+
+        let audioCtx = new (window.AudioContext || window.webkitAudioContext || window.audioContext);
+
+        let queryString = window.location.search,
+            params = new URLSearchParams(queryString),
+            heartbeat,
+            response = fetch("extern/sound/hearbeat_1_pulse.wav")
+            .then(async (resp) => {
+                heartbeat = await audioCtx.decodeAudioData(await resp.arrayBuffer());
+            })
+        
+        
+
+        let beep_tone = false, // low -> false, high -> true
+            beep_enable = true,
+            beep_duration =  0.05,
+            pulse_enable = false; 
+        function tickNoise() {
+
+            if(beep_enable){
+                var oscillator = audioCtx.createOscillator();
+                var gainNode = audioCtx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                gainNode.gain.value = 0.1;
+                oscillator.frequency.value = beep_tone?2100:2300;
+                oscillator.type = 'sine';
+    
+                oscillator.start(audioCtx.currentTime);
+                oscillator.stop(audioCtx.currentTime + beep_duration);
+            }
+
+            beep_tone = !beep_tone;
+
+            if(pulse_enable){
+                heartbeatBuffer = audioCtx.createBufferSource();
+                heartbeatBuffer.buffer = heartbeat;
+                heartbeatBuffer.connect(audioCtx.destination);
+
+                heartbeatBuffer.start();
+            }
+        }
+
+
+        function coerce(val, min, max){
+            return Math.floor(Math.min(Math.max(val, min), max))
+        }
+
+        function formatDigit(int){
+            return String(int).padStart(2, '0');
+        }
+
+        function setDigits(days_val, hours_val, minutes_val, seconds_val){
+
+            tickNoise();
+            daysElem.innerHTML = formatDigit(coerce(days_val, 0, 99 + 1));
+            hoursElem.innerHTML = formatDigit(coerce(hours_val, 0, 24 + 1));
+            minutesElem.innerHTML = formatDigit(coerce(minutes_val, 0, 60 + 1));
+            secondsElem.innerHTML = formatDigit(coerce(seconds_val, 0, 60 + 1));
+        }
+
+        let randClockAnim = {
+            
+            minDelay: 10,
+            maxDelay: 200,
+            startTime: 0,
+            duration: 3000,
+            exitCallback: null,
+
+            loop: function(){
+
+            setDigits(
+                    Math.random()*99,
+                    Math.random()*24,
+                    Math.random()*60,
+                    Math.random()*60,
+                )
+
+            let runtime = (Date.now() - this.startTime);
+
+            if(runtime < this.duration)
+                setTimeout(() => this.loop(), 
+                    this.minDelay + 
+                        (this.maxDelay - this.minDelay)
+                        *runtime/this.duration)
+            else if(this.exitCallback)
+                    this.exitCallback()
+
+            },
+
+            start: function(){
+                
+                if(this.running)
+                    return;
+                
+                this.startTime = Date.now()
+                this.loop();
+                return this;
+            },
+
+            onExit: function(callback){
+                this.exitCallback = callback;
+                return this;
+            }
+
+        }
+
+        let endDate, tickInterval;
+        function initCountDown(){
+
+            if(params.get('delta'))
+                endDate = Date.now() + Number(params.get('delta'))*1000;
+            else if(params.get('endtime'))
+                endDate = Number(params.get('endtime'))*1000;
+
+            function tick(){
+                let dateStart = Date.now(),
+                    delta = (endDate - dateStart)/1000;
+
+                if(delta <= 0){
+                    clearInterval(tickInterval);
+                    beep_duration = 10000
+                }
+
+                setDigits(delta/(60*60*24), (delta/(60*60))%24, (delta/60)%60, delta%60);
+            }
+            
+            tick(); // one to start with
+            tickInterval = setInterval(tick, 1000);
+
+            pulse_enable = true;
+        }
+
+        function startClock(){
+
+            window.removeEventListener('click', startClock);
+
+            randClockAnim
+                .start()
+                .onExit(initCountDown);
+
+            clockFace.classList.remove('hidden');
+            clockPrompt.classList.add('hidden');
+
+            let msg = params.get('msg').replace(/ /g, "!");
+            if(msg){
+                clockSubtitle.innerText = msg;
+                clockSubtitle.setAttribute('data-mask', '~'.repeat(msg.length))
+            }
+
+
+        }
+
+        function initPage(){
+
+            window.addEventListener('click', startClock);
+
+        }
+    </script>
+</head>
+<body onload="initPage()">
+    <div id="clockFace" class="digital hidden">
+        <span class="clockSeperator">&bull;</span>
+        <span id="daysElem" class="clockDigit"></span>&nbsp;
+        <span id="hoursElem" class="clockDigit"></span>
+        <span id="minutesElem" class="clockDigit"></span>
+        <span id="secondsElem" class="clockDigit"></span>
+        <span class="clockSeperator">&bull;</span>
+    </div>
+    <div id="clockPrompt" class="clockText" data-mask="~~~~~~~~~~~~~~">Click!to!start</div>
+    <div id="clockSubtitle" class="clockText" data-mask=""></div>
+</body>
+</html>
