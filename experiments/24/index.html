@@ -72,7 +72,7 @@
         let queryString = window.location.search,
             params = new URLSearchParams(queryString),
             heartbeat,
-            response = fetch("extern/sound/hearbeat_1_pulse.wav")
+            response = fetch("./extern/sound/hearbeat_1_pulse.wav")
             .then(async (resp) => {
                 heartbeat = await audioCtx.decodeAudioData(await resp.arrayBuffer());
             })
